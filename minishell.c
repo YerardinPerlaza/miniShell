@@ -12,7 +12,7 @@ int main(/*int argc, char *argv[], char *envp[]*/)
 	char **command = NULL;
 	size_t i, l_len = 0;
 	int status, count_tok;
-	char separator[] = {" "};
+	char separator[] = {" \t\n\r"};
 
 	while (1)
 	{
@@ -20,10 +20,11 @@ int main(/*int argc, char *argv[], char *envp[]*/)
 		if (getline(&line, &l_len, stdin) == -1)
 			break;
 
-		for (i = 0; line[i] != '\0'; i++)
+		tok = strtok(line, " \t\n\r");
+		for (i = 0; tok != '\0'; i++)
 		{
-			if (line[i] == separator[0])
-				count_tok++;
+			tok = strtok(NULL, separator);
+			count_tok++;
 		}
 		command = malloc(sizeof(char *) * (count_tok + 1));
 		tok = strtok(line, " \t\n\r");
